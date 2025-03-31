@@ -1,5 +1,6 @@
 package com.example.todoappmvp.ui.main
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,8 +10,10 @@ import com.example.todoappmvp.data.model.NoteEntity
 import com.example.todoappmvp.data.repository.main.MainRepository
 import com.example.todoappmvp.databinding.ActivityMainBinding
 import com.example.todoappmvp.ui.add.AddFragment
+import com.example.todoappmvp.utils.BUNDLE_ID
 import com.example.todoappmvp.utils.DELETE
 import com.example.todoappmvp.utils.EDIT
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -47,11 +50,15 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
             noteAdapter.setOnItemClickListener { noteEntity, state ->
                 when (state) {
                     EDIT -> {
-                        Toast.makeText(this@MainActivity, "Edit", Toast.LENGTH_SHORT).show()
+                        val bundle = Bundle()
+                        bundle.putInt(BUNDLE_ID, noteEntity.id)
+                        val fragment = AddFragment()
+                        fragment.arguments = bundle
+                        fragment.show(supportFragmentManager, AddFragment().tag)
                     }
 
                     DELETE -> {
-                        Toast.makeText(this@MainActivity, "Delete", Toast.LENGTH_SHORT).show()
+                        presenter.deleteNote(noteEntity)
                     }
                 }
             }
@@ -71,5 +78,14 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
     override fun showEmpty() {
         binding.emptyLay.visibility = View.VISIBLE
         binding.noteList.visibility = View.GONE
+    }
+
+    override fun deleteMessage() {
+        Snackbar.make(binding.root, "Note deleted", Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()
     }
 }

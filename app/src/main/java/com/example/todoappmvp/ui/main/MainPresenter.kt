@@ -1,6 +1,7 @@
 package com.example.todoappmvp.ui.main
 
 import com.example.todoappmvp.base.BasePresenterImpl
+import com.example.todoappmvp.data.model.NoteEntity
 import com.example.todoappmvp.data.repository.main.MainRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -20,6 +21,15 @@ class MainPresenter @Inject constructor(
                 } else {
                     view.showEmpty()
                 }
+            }
+    }
+
+    override fun deleteNote(noteEntity: NoteEntity) {
+        disposable = repository.deleteNote(noteEntity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                view.deleteMessage()
             }
     }
 }

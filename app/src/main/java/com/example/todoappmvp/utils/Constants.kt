@@ -15,3 +15,5 @@ const val HEALTH = "Health"
 const val EDIT = "edit"
 const val DELETE = "delete"
 const val NEW = "new"
+
+const val BUNDLE_ID = "bundle_id"
