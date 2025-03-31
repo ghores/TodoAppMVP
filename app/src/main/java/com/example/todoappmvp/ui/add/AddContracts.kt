@@ -10,7 +10,7 @@ interface AddContracts {
 
     interface Presenter {
         fun saveNote(noteEntity: NoteEntity)
-        fun detailNote(id: Int)
+        fun getNote(id: Int)
         fun updateNote(noteEntity: NoteEntity)
     }
 }

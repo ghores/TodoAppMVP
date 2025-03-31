@@ -47,11 +47,7 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
     private var noteId = 0
     private var type = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAddBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -76,7 +72,7 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
             prioritiesSpinnerItems()
             //Set default value
             if (type == EDIT) {
-                presenter.detailNote(noteId)
+                presenter.getNote(noteId)
             }
             //Save
             saveNote.setOnClickListener {
@@ -105,12 +101,7 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoriesSpinner.adapter = adapter
         binding.categoriesSpinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 category = categoriesList[position]
             }
 
@@ -122,17 +113,11 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
 
     private fun prioritiesSpinnerItems() {
         prioritiesList = arrayOf(HIGH, NORMAL, LOW)
-        val adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, prioritiesList)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, prioritiesList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.prioritySpinner.adapter = adapter
         binding.prioritySpinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 priority = prioritiesList[position]
             }
 
@@ -143,7 +128,7 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
     }
 
     override fun close() {
-        dismiss()
+        this.dismiss()
     }
 
     override fun loadNote(noteEntity: NoteEntity) {

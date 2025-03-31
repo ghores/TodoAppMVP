@@ -94,12 +94,12 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
         val searchView = search.actionView as SearchView
         searchView.queryHint = getString(R.string.search)
         searchView.setOnQueryTextListener(object : OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                presenter.searchNote(newText.toString())
+            override fun onQueryTextChange(newText: String): Boolean {
+                presenter.searchNote(newText)
                 return true
             }
         })
