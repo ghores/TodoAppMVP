@@ -28,4 +28,13 @@ class AddPresenter @Inject constructor(
                 view.loadNote(it)
             }
     }
+
+    override fun updateNote(noteEntity: NoteEntity) {
+        disposable = repository.updateNote(noteEntity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                view.close()
+            }
+    }
 }

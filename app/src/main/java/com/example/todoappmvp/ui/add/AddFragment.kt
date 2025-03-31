@@ -23,6 +23,7 @@ import com.example.todoappmvp.utils.WORK
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 @AndroidEntryPoint
 class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
     //Binding
@@ -36,6 +37,7 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
 
     @Inject
     lateinit var presenter: AddPresenter
+
     //Other
     //private val presenter by lazy { AddPresenter(repository, this) }
     private lateinit var categoriesList: Array<String>
@@ -45,7 +47,11 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
     private var noteId = 0
     private var type = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentAddBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -77,23 +83,34 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
                 val title = titleEdt.text.toString()
                 val desc = descEdt.text.toString()
                 //Entity
-                noteEntity.id = 0
+                //noteEntity.id = 0
+                noteEntity.id = noteId
                 noteEntity.title = title
                 noteEntity.desc = desc
                 noteEntity.category = category
                 noteEntity.priority = priority
-                presenter.saveNote(noteEntity)
+                if (type == NEW) {
+                    presenter.saveNote(noteEntity)
+                } else {
+                    presenter.updateNote(noteEntity)
+                }
             }
         }
     }
 
     private fun categoriesSpinnerItems() {
         categoriesList = arrayOf(WORK, HOME, EDUCATION, HEALTH)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoriesList)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoriesList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoriesSpinner.adapter = adapter
-        binding.categoriesSpinner.onItemSelectedListener = object :OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        binding.categoriesSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 category = categoriesList[position]
             }
 
@@ -105,11 +122,17 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
 
     private fun prioritiesSpinnerItems() {
         prioritiesList = arrayOf(HIGH, NORMAL, LOW)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, prioritiesList)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, prioritiesList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.prioritySpinner.adapter = adapter
-        binding.prioritySpinner.onItemSelectedListener = object :OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        binding.prioritySpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 priority = prioritiesList[position]
             }
 
@@ -129,9 +152,23 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
                 binding.apply {
                     titleEdt.setText(noteEntity.title)
                     descEdt.setText(noteEntity.desc)
+                    categoriesSpinner.setSelection(getIndex(categoriesList, noteEntity.category))
+                    prioritySpinner.setSelection(getIndex(prioritiesList, noteEntity.priority))
                 }
             }
         }
+    }
+
+    private fun getIndex(list: Array<String>, item: String): Int {
+        var index = 0
+        //for(i in 0 until list.size)
+        for (i in list.indices) {
+            if (list[i] == item) {
+                index = i
+                break
+            }
+        }
+        return index
     }
 
     override fun onStop() {
