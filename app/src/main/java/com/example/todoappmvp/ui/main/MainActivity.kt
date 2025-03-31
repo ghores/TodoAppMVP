@@ -9,6 +9,8 @@ import com.example.todoappmvp.data.model.NoteEntity
 import com.example.todoappmvp.data.repository.main.MainRepository
 import com.example.todoappmvp.databinding.ActivityMainBinding
 import com.example.todoappmvp.ui.add.AddFragment
+import com.example.todoappmvp.utils.DELETE
+import com.example.todoappmvp.utils.EDIT
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,8 +27,10 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
 
     @Inject
     lateinit var presenter: MainPresenter
+
     /*//Other
     private val presenter by lazy { MainPresenter(repository, this) }*/
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -39,6 +43,18 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
             }
             //Get All Notes
             presenter.getAllNotes()
+            //Clicks
+            noteAdapter.setOnItemClickListener { noteEntity, state ->
+                when (state) {
+                    EDIT -> {
+                        Toast.makeText(this@MainActivity, "Edit", Toast.LENGTH_SHORT).show()
+                    }
+
+                    DELETE -> {
+                        Toast.makeText(this@MainActivity, "Delete", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 

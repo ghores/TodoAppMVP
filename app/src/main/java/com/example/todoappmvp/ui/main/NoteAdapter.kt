@@ -26,6 +26,7 @@ class NoteAdapter @Inject constructor() : RecyclerView.Adapter<NoteAdapter.ViewH
     private lateinit var binding: ItemNotesBinding
     private lateinit var context: Context
     private var moviesList = emptyList<NoteEntity>()
+    private var onItemClickListener: ((NoteEntity, String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemNotesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -61,11 +62,32 @@ class NoteAdapter @Inject constructor() : RecyclerView.Adapter<NoteAdapter.ViewH
                     EDUCATION -> categoryImg.setImageResource(R.drawable.education)
                     HEALTH -> categoryImg.setImageResource(R.drawable.healthcare)
                 }
+                //Menu
+                menuImg.setOnClickListener {
+                    val popupMenu = PopupMenu(context, it)
+                    popupMenu.menuInflater.inflate(R.menu.menu_items, popupMenu.menu)
+                    popupMenu.show()
+                    //Click
+                    popupMenu.setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.itemEdit -> {
+                                onItemClickListener?.let {
+                                    it(item, EDIT)
+                                }
+                            }
+
+                            R.id.itemDelete -> {
+                                onItemClickListener?.let {
+                                    it(item, DELETE)
+                                }
+                            }
+                        }
+                        return@setOnMenuItemClickListener true
+                    }
+                }
             }
         }
     }
-
-    private var onItemClickListener: ((NoteEntity, String) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (NoteEntity, String) -> Unit) {
         onItemClickListener = listener
