@@ -2,15 +2,21 @@ package com.example.todoappmvp.ui.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.todoappmvp.R
 import com.example.todoappmvp.data.model.NoteEntity
 import com.example.todoappmvp.data.repository.main.MainRepository
 import com.example.todoappmvp.databinding.ActivityMainBinding
 import com.example.todoappmvp.ui.add.AddFragment
+import com.example.todoappmvp.utils.ALL
 import com.example.todoappmvp.utils.BUNDLE_ID
 import com.example.todoappmvp.utils.DELETE
 import com.example.todoappmvp.utils.EDIT
+import com.example.todoappmvp.utils.HIGH
+import com.example.todoappmvp.utils.LOW
+import com.example.todoappmvp.utils.NORMAL
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,6 +37,7 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
 
     /*//Other
     private val presenter by lazy { MainPresenter(repository, this) }*/
+    private var selectedItem = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +67,19 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
                     }
                 }
             }
+            //Filter
+            notesToolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.actionFilter -> {
+                        filterByPriority()
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    else -> {
+                        return@setOnMenuItemClickListener false
+                    }
+                }
+            }
         }
     }
 
@@ -85,5 +105,24 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
     override fun onStop() {
         super.onStop()
         presenter.onStop()
+    }
+
+    private fun filterByPriority() {
+        val priorities = arrayOf(ALL, HIGH, NORMAL, LOW)
+        AlertDialog.Builder(this)
+            .setSingleChoiceItems(priorities, selectedItem) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        presenter.getAllNotes()
+                    }
+
+                    in 1..3 -> {
+                        presenter.filterNote(priorities[which])
+                    }
+                }
+                presenter.filterNote(priorities[which])
+                selectedItem = which
+                dialog.dismiss()
+            }.create().show()
     }
 }

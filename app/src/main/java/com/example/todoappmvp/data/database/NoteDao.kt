@@ -27,4 +27,7 @@ interface NoteDao {
 
     @Query("SELECT * FROM $NOTE_TABLE_NAME WHERE id ==:id")
     fun getNote(id: Int): Observable<NoteEntity>
+
+    @Query("SELECT * FROM $NOTE_TABLE_NAME WHERE priority ==:priority")
+    fun filterNote(priority: String): Observable<List<NoteEntity>>
 }

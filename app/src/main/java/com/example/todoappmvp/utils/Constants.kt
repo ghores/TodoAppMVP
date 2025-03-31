@@ -3,6 +3,7 @@ package com.example.todoappmvp.utils
 const val NOTE_TABLE_NAME = "note_table_name"
 const val NOTE_DATABASE_NAME = "note_database_name"
 
+const val ALL = "All"
 const val HIGH = "High"
 const val NORMAL = "Normal"
 const val LOW = "Low"
