@@ -31,8 +31,10 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
     @Inject
     lateinit var repository: AddNoteRepository
 
+    @Inject
+    lateinit var presenter: AddPresenter
     //Other
-    private val presenter by lazy { AddPresenter(repository, this) }
+    //private val presenter by lazy { AddPresenter(repository, this) }
     private lateinit var categoriesList: Array<String>
     private var category = ""
     private lateinit var prioritiesList: Array<String>
