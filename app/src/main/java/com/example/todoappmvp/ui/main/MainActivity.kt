@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.todoappmvp.data.model.NoteEntity
 import com.example.todoappmvp.data.repository.main.MainRepository
 import com.example.todoappmvp.databinding.ActivityMainBinding
@@ -18,6 +19,9 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
 
     @Inject
     lateinit var repository: MainRepository
+
+    @Inject
+    lateinit var noteAdapter: NoteAdapter
 
     //Other
     private val presenter by lazy { MainPresenter(repository, this) }
@@ -39,7 +43,11 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
     override fun showAllNotes(list: List<NoteEntity>) {
         binding.emptyLay.visibility = View.GONE
         binding.noteList.visibility = View.VISIBLE
-        Toast.makeText(this, "${list.size}", Toast.LENGTH_SHORT).show()
+        noteAdapter.setData(list)
+        binding.noteList.apply {
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            adapter = noteAdapter
+        }
     }
 
     override fun showEmpty() {

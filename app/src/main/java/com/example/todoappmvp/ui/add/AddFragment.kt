@@ -10,6 +10,13 @@ import android.widget.ArrayAdapter
 import com.example.todoappmvp.data.model.NoteEntity
 import com.example.todoappmvp.data.repository.add.AddNoteRepository
 import com.example.todoappmvp.databinding.FragmentAddBinding
+import com.example.todoappmvp.utils.EDUCATION
+import com.example.todoappmvp.utils.HEALTH
+import com.example.todoappmvp.utils.HIGH
+import com.example.todoappmvp.utils.HOME
+import com.example.todoappmvp.utils.LOW
+import com.example.todoappmvp.utils.NORMAL
+import com.example.todoappmvp.utils.WORK
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -62,7 +69,7 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
     }
 
     private fun categoriesSpinnerItems() {
-        categoriesList = arrayOf("Work", "Home", "Shopping", "Education", "Health")
+        categoriesList = arrayOf(WORK, HOME, EDUCATION, HEALTH)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoriesList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoriesSpinner.adapter = adapter
@@ -78,7 +85,7 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
     }
 
     private fun prioritiesSpinnerItems() {
-        prioritiesList = arrayOf("High", "Normal", "Low")
+        prioritiesList = arrayOf(HIGH, NORMAL, LOW)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, prioritiesList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.prioritySpinner.adapter = adapter
