@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TodoAppMVP</string>
 
+    <string name="noteAppName">My Note</string>
     <string name="filter">Filter</string>
     <string name="title">Title</string>
     <string name="desc">Description</string>
@@ -9,4 +10,6 @@
     <string name="save">Save</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="search">Search</string>
+    <string name="floatingBtn">floatingBtn</string>
 </resources>
