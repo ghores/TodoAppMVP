@@ -120,7 +120,6 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
                         presenter.filterNote(priorities[which])
                     }
                 }
-                presenter.filterNote(priorities[which])
                 selectedItem = which
                 dialog.dismiss()
             }.create().show()
