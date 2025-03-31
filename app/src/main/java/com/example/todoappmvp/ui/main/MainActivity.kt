@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todoappmvp.databinding.ActivityMainBinding
 import com.example.todoappmvp.ui.add.AddFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     //Binding
     private lateinit var binding: ActivityMainBinding
