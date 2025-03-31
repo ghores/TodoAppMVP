@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import com.example.todoappmvp.databinding.FragmentNoteBinding
+import com.example.todoappmvp.databinding.FragmentAddBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class NoteFragment : BottomSheetDialogFragment() {
+class AddFragment : BottomSheetDialogFragment() {
     //Binding
-    private lateinit var binding: FragmentNoteBinding
+    private lateinit var binding: FragmentAddBinding
 
     //Other
     private lateinit var categoriesList: Array<String>
@@ -21,7 +21,7 @@ class NoteFragment : BottomSheetDialogFragment() {
     private var priority = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentNoteBinding.inflate(layoutInflater)
+        binding = FragmentAddBinding.inflate(layoutInflater)
         return binding.root
     }
 

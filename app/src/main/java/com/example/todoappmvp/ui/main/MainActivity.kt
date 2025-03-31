@@ -3,7 +3,7 @@ package com.example.todoappmvp.ui.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todoappmvp.databinding.ActivityMainBinding
-import com.example.todoappmvp.ui.add.NoteFragment
+import com.example.todoappmvp.ui.add.AddFragment
 
 class MainActivity : AppCompatActivity() {
     //Binding
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         //InitView
         binding.apply {
             addNoteBtn.setOnClickListener {
-                NoteFragment().show(supportFragmentManager, NoteFragment().tag)
+                AddFragment().show(supportFragmentManager, AddFragment().tag)
             }
         }
     }
