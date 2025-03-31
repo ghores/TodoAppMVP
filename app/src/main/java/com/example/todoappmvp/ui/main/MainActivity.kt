@@ -1,9 +1,12 @@
 package com.example.todoappmvp.ui.main
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.todoappmvp.R
 import com.example.todoappmvp.data.model.NoteEntity
@@ -45,6 +48,8 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
         setContentView(binding.root)
         //InitView
         binding.apply {
+            //Set action view
+            setSupportActionBar(notesToolbar)
             //Note detail
             addNoteBtn.setOnClickListener {
                 AddFragment().show(supportFragmentManager, AddFragment().tag)
@@ -81,6 +86,24 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        val search = menu.findItem(R.id.actionSearch)
+        val searchView = search.actionView as SearchView
+        searchView.queryHint = getString(R.string.search)
+        searchView.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                presenter.searchNote(newText.toString())
+                return true
+            }
+        })
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun showAllNotes(list: List<NoteEntity>) {

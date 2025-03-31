@@ -10,4 +10,5 @@ class MainRepository @Inject constructor(private val dao: NoteDao) {
     fun getAllNotes(): Observable<List<NoteEntity>> = dao.getAllNotes()
     fun deleteNote(noteEntity: NoteEntity): Completable = dao.deleteNote(noteEntity)
     fun filterNote(priority: String): Observable<List<NoteEntity>> = dao.filterNote(priority)
+    fun searchNote(title: String): Observable<List<NoteEntity>> = dao.searchNote(title)
 }
