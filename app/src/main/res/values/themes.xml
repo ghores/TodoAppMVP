@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+        <item name="android:statusBarColor">@color/grayDark</item>
     </style>
 
     <style name="Theme.TodoAppMVP" parent="Base.Theme.TodoAppMVP" />
