@@ -10,11 +10,14 @@ import android.widget.ArrayAdapter
 import com.example.todoappmvp.data.model.NoteEntity
 import com.example.todoappmvp.data.repository.add.AddNoteRepository
 import com.example.todoappmvp.databinding.FragmentAddBinding
+import com.example.todoappmvp.utils.BUNDLE_ID
+import com.example.todoappmvp.utils.EDIT
 import com.example.todoappmvp.utils.EDUCATION
 import com.example.todoappmvp.utils.HEALTH
 import com.example.todoappmvp.utils.HIGH
 import com.example.todoappmvp.utils.HOME
 import com.example.todoappmvp.utils.LOW
+import com.example.todoappmvp.utils.NEW
 import com.example.todoappmvp.utils.NORMAL
 import com.example.todoappmvp.utils.WORK
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -39,6 +42,8 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
     private var category = ""
     private lateinit var prioritiesList: Array<String>
     private var priority = ""
+    private var noteId = 0
+    private var type = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAddBinding.inflate(layoutInflater)
@@ -47,6 +52,14 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Bundle
+        noteId = arguments?.getInt(BUNDLE_ID) ?: 0
+        //Type
+        type = if (noteId > 0) {
+            EDIT
+        } else {
+            NEW
+        }
         //InitView
         binding.apply {
             closeImg.setOnClickListener {
@@ -55,6 +68,10 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
             //Spinner
             categoriesSpinnerItems()
             prioritiesSpinnerItems()
+            //Set default value
+            if (type == EDIT) {
+                presenter.detailNote(noteId)
+            }
             //Save
             saveNote.setOnClickListener {
                 val title = titleEdt.text.toString()
@@ -104,6 +121,17 @@ class AddFragment : BottomSheetDialogFragment(), AddContracts.View {
 
     override fun close() {
         dismiss()
+    }
+
+    override fun loadNote(noteEntity: NoteEntity) {
+        if (this.isAdded) {
+            requireActivity().runOnUiThread {
+                binding.apply {
+                    titleEdt.setText(noteEntity.title)
+                    descEdt.setText(noteEntity.desc)
+                }
+            }
+        }
     }
 
     override fun onStop() {

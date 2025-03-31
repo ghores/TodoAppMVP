@@ -1,9 +1,7 @@
 package com.example.todoappmvp.ui.main
 
-import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.todoappmvp.data.model.NoteEntity
