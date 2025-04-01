@@ -1,6 +1,5 @@
-# ToDolist-App-MVP
+# ToDolist App With Kotlin
 A simple ToDo Task Manager App made in Kotlin using xml and RoomDb and MVVM and Hilt
-
 
 Overview :
 * RoomDatabase
