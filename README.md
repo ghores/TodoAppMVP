@@ -6,6 +6,7 @@ Overview :
 * RoomDatabase
 * ViewBinding
 * DiffUtils
+* RxJava
 * Hilt
 * MVP
 
